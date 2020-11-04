@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useEffect, useState } from 'react';
 import Header from '../components/Header';
 import Search from '../components/Search';
 import Categories from '../components/Categories';
@@ -6,30 +6,34 @@ import Carousel from '../components/Carousel';
 import CarouselItem from '../components/CarouselItem';
 import Footer from '../components/Footer';
 import '../assets/styles/App.scss';
+import useInitialState from '../hooks/useInitialState';
 
-export default class App extends Component {
-  render() {
-    const categories = [
-      { title: 'Nueva Lista', items: 3 },
-      { title: 'Otra Lista', items: 2 },
-      { title: 'Mi Lista', items: 1 },
-    ];
-    return (
-      <div className='App'>
-        <Header />
-        <Search />
-        {categories.map((item) => (
-          <Categories title={item.title}>
-            <Carousel>
-              {[...Array(item.items)].map((res, index) => (
-                <CarouselItem key={index} />
-              ))}
-            </Carousel>
-          </Categories>
-        ))}
+const API = 'http://localhost:3000/initalState';
 
-        <Footer />
-      </div>
-    );
-  }
-}
+const App = () => {
+  const initialState = useInitialState(API);
+  return initialState.length === 0 ? (
+    <h1>Loading...</h1>
+  ) : (
+    <div className='App'>
+      <Header />
+      <Search />
+      {Object.keys(initialState)?.map((categories) => {
+        return (
+          initialState[categories]?.length > 0 && (
+            <Categories title={categories?.toUpperCase()}>
+              <Carousel>
+                {initialState[categories]?.map((info) => (
+                  <CarouselItem key={info.id} {...info} />
+                ))}
+              </Carousel>
+            </Categories>
+          )
+        );
+      })}
+      ;
+      <Footer />
+    </div>
+  );
+};
+export default App;
