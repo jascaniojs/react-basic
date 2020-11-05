@@ -1,18 +1,15 @@
 import React, { useMemo } from 'react';
 import { connect } from 'react-redux';
 import Lottie from 'react-lottie-segments';
-
-import Search from '../components/Search';
-import Categories from '../components/Categories';
-import Carousel from '../components/Carousel';
-import CarouselItem from '../components/CarouselItem';
+import { useSelector, useDispatch } from 'react-redux';
+import { request } from '../actions';
 import '../assets/styles/App.scss';
 import useRobotState from '../hooks/useRobotState';
 import * as animationRobot from '../assets/lotties/Robot.json';
 
 const API = 'http://localhost:3000/initalState';
 
-const Home = ({ myList, trends, originals }) => {
+const Robot = (props) => {
   //const initialState = useInitialState(API);
   const {
     isStopped = false,
@@ -25,6 +22,7 @@ const Home = ({ myList, trends, originals }) => {
       segments: [10, 12],
       forceFlag: true,
     },
+    requested,
   } = useRobotState();
   const defaultOptions = {
     loop: false,
@@ -39,10 +37,17 @@ const Home = ({ myList, trends, originals }) => {
     isFrame: true,
   };
   console.log({ segments, requested, isStopped });
+
+  const requestJoke = () => {
+    const { request } = props;
+    animationResponse();
+    //request();
+  };
+
   return useMemo(() => {
     return (
       <>
-        <Search />
+        <h2 className='main__title'>Pick a joke, and advice or both</h2>
         <div className='robot__panel'>
           <Lottie
             options={defaultOptions}
@@ -54,48 +59,13 @@ const Home = ({ myList, trends, originals }) => {
             playSegments={segments}
             direction={direction}
           />
-          <button
-            onClick={animationRequest}
-            type='button'
-            className='button'
-          >
+          <button onClick={animationRequest} type='button' className='button'>
             Request
           </button>
-          <button
-            onClick={animationResponse}
-            type='button'
-            className='button'
-          >
+          <button onClick={animationResponse} type='button' className='button'>
             Response
           </button>
         </div>
-        {myList.length > 0 && (
-          <Categories title='Mi Lista'>
-            <Carousel>
-              {myList?.map((info) => (
-                <CarouselItem key={info.id} {...info} isList />
-              ))}
-            </Carousel>
-          </Categories>
-        )}
-        {trends.length > 0 && (
-          <Categories title='Tendencias'>
-            <Carousel>
-              {trends?.map((info) => (
-                <CarouselItem key={info.id} {...info} />
-              ))}
-            </Carousel>
-          </Categories>
-        )}
-        {originals.length > 0 && (
-          <Categories title='Originales'>
-            <Carousel>
-              {originals?.map((info) => (
-                <CarouselItem key={info.id} {...info} />
-              ))}
-            </Carousel>
-          </Categories>
-        )}
       </>
     );
   }, [
@@ -104,16 +74,13 @@ const Home = ({ myList, trends, originals }) => {
     animationRequest,
     animationResponse,
     handlePause,
+    requested,
     direction,
   ]);
 };
 
-const mapStateToProps = (state) => {
-  return {
-    myList: state.myList,
-    trends: state.trends,
-    originals: state.originals,
-  };
+const mapStateToProps = (state) => state;
+const mapDispatchToProps = {
+  request,
 };
-
-export default connect(mapStateToProps, null)(Home);
+export default connect(mapStateToProps, mapDispatchToProps)(Robot);

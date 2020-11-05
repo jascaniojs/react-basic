@@ -10,6 +10,11 @@ const reducer = (state, action) => {
         ...state,
         myList: state.myList.filter((item) => item.id !== action.payload),
       };
+    case 'REQUEST_ANY':
+      return {
+        ...state,
+        requested: true,
+      };
     default:
       return state;
   }
