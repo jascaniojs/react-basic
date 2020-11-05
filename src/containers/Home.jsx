@@ -10,13 +10,12 @@ import useInitialState from '../hooks/useInitialState';
 
 const API = 'http://localhost:3000/initalState';
 
-const App = () => {
+const Home = () => {
   const initialState = useInitialState(API);
   return initialState.length === 0 ? (
     <h1>Loading...</h1>
   ) : (
-    <div className='App'>
-      <Header />
+    <>
       <Search />
       {Object.keys(initialState)?.map((categories) => {
         return (
@@ -32,8 +31,7 @@ const App = () => {
         );
       })}
       ;
-      <Footer />
-    </div>
+    </>
   );
 };
-export default App;
+export default Home;

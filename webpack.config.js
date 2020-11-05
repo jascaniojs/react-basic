@@ -13,8 +13,8 @@ module.exports = {
     extensions: ['.js', '.jsx'],
   },
   devServer: {
-    inline: true,
     hot: true,
+    historyApiFallback: true,
   },
   module: {
     rules: [
