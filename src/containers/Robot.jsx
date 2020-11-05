@@ -18,11 +18,9 @@ const Robot = (props) => {
     animationRequest = () => {},
     animationResponse = () => {},
     handlePause = () => {},
-    segments = {
-      segments: [10, 12],
-      forceFlag: true,
-    },
+    segments,
     requested,
+    showAnswer,
   } = useRobotState();
   const defaultOptions = {
     loop: false,
@@ -43,22 +41,23 @@ const Robot = (props) => {
     animationResponse();
     //request();
   };
+  //        {showAnswer && <div className='answer' alt='' />}
 
   return useMemo(() => {
     return (
-      <>
-        <h2 className='main__title'>Pick a joke, and advice or both</h2>
-        <div className='robot__panel'>
-          <Lottie
-            options={defaultOptions}
-            height={450}
-            width={1112}
-            isStopped={isStopped}
-            isPaused={isPaused}
-            goToAndStop={startPoint}
-            playSegments={segments}
-            direction={direction}
-          />
+      <div className='robot__panel'>
+        <h2 className='main__title'>Pick a joke, an advice, or both</h2>
+        <Lottie
+          options={defaultOptions}
+          height={450}
+          width={1112}
+          isStopped={isStopped}
+          isPaused={isPaused}
+          goToAndStop={startPoint}
+          playSegments={segments}
+          direction={direction}
+        />
+        <div className='buttons'>
           <button onClick={animationRequest} type='button' className='button'>
             Request
           </button>
@@ -66,7 +65,7 @@ const Robot = (props) => {
             Response
           </button>
         </div>
-      </>
+      </div>
     );
   }, [
     isPaused,

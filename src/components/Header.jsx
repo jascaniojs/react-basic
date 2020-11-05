@@ -8,7 +8,7 @@ import userIcon from '../assets/static/user-icon.png';
 const Header = () => (
   <header className='header'>
     <Link to='/'>
-      <img className='header__img' src={logo} alt='Platzi Video' />
+      <img className='header__img' src={logo} alt='Destiny Robot' />
     </Link>
     <div className='header__menu'>
       <div className='header__menu--profile'>

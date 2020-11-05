@@ -43,32 +43,7 @@ const Home = ({ myList, trends, originals }) => {
     return (
       <>
         <Search />
-        <div className='robot__panel'>
-          <Lottie
-            options={defaultOptions}
-            height={450}
-            width={1112}
-            isStopped={isStopped}
-            isPaused={isPaused}
-            goToAndStop={startPoint}
-            playSegments={segments}
-            direction={direction}
-          />
-          <button
-            onClick={animationRequest}
-            type='button'
-            className='button'
-          >
-            Request
-          </button>
-          <button
-            onClick={animationResponse}
-            type='button'
-            className='button'
-          >
-            Response
-          </button>
-        </div>
+
         {myList.length > 0 && (
           <Categories title='Mi Lista'>
             <Carousel>

@@ -10,11 +10,13 @@ const useRobotState = () => {
     segments: [10, 12],
     forceFlag: false,
   });
+  const [showAnswer, setShowAnswer] = useState(false);
   // const requested = useSelector((store) => store.requested);
 
   const animationRequest = useCallback(() => {
     if (requested) {
       //setDirection(direction * -1);
+      setShowAnswer(false);
       return setSegments({ segments: [83, 10], forceFlag: false });
     }
     return setSegments({ segments: [10, 20], forceFlag: false });
@@ -22,8 +24,9 @@ const useRobotState = () => {
 
   const animationResponse = useCallback(() => {
     if (!requested) setRequested(true);
+    setShowAnswer(true);
     return setSegments({ segments: [20, 83], forceFlag: true });
-  }, [requested]);
+  }, [showAnswer, requested]);
 
   const handlePause = useCallback(() => {
     setIsPaused(!isPaused);
@@ -44,6 +47,7 @@ const useRobotState = () => {
     direction,
     segments,
     requested,
+    showAnswer,
   };
 };
 export default useRobotState;
