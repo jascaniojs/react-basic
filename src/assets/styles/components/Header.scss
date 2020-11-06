@@ -11,7 +11,7 @@
 
 .isLogin,
 .isRegister {
-  background-color: linear-gradient(#21c08b, #8f57fd);
+  background-color: #21c08b;
 }
 
 .header__img {
@@ -60,4 +60,6 @@ ul:hover {
 .header__menu--profile img {
   margin-right: 8px;
   width: 40px;
+  object-fit: cover;
+  border-radius: 100%;
 }
