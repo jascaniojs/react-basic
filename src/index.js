@@ -9,6 +9,8 @@ const initialState = {
   user: {},
   playing: {},
   myList: [],
+  isLogin: false,
+  isRegister: false,
   trends: [
     {
       id: 2,
