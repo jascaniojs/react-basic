@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
-import { createStore, applyMiddleware } from 'redux';
+import { createStore, applyMiddleware, compose } from 'redux';
 import reducer from './reducers';
 import App from './routes/App';
 
@@ -185,7 +185,7 @@ const crashReporter = (store) => (next) => (action) => {
     return next(action);
   } catch (err) {
     console.error('Caught an exception!', err);
-    Raven.captureException(err, {
+    window.Raven.captureException(err, {
       extra: {
         action,
         state: store.getState(),
@@ -194,12 +194,8 @@ const crashReporter = (store) => (next) => (action) => {
     throw err;
   }
 };
-
-const store = createStore(
-  reducer,
-  initialState,
-  applyMiddleware(logger, crashReporter)
-);
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+const store = createStore(reducer, initialState, composeEnhancers());
 
 ReactDOM.render(
   <Provider store={store}>
